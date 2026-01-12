@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopWise AI</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container { text-align: center; padding: 20px; }
+        button {
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="user-name">Привет!</h1>
+        <p>Добро пожаловать в <b>ShopWise AI</b></p>
+        <p>Я помогу найти лучший товар на маркетплейсах.</p>
+        <button id="search-btn">Найти кроссовки</button>
+    </div>
+
+    <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Развернуть на всё окно
+
+        // Отображаем имя пользователя
+        if (tg.initDataUnsafe?.user) {
+            document.getElementById('user-name').innerText = `Привет, ${tg.initDataUnsafe.user.first_name}!`;
+        }
+
+        // Кнопка поиска (отправляет данные обратно боту)
+        document.getElementById('search-btn').addEventListener('click', () => {
+            const data = { action: 'search', query: 'белые кроссовки' };
+            tg.sendData(JSON.stringify(data)); // Отправляет данные боту
+            tg.close(); // Закрывает Mini App
+        });
+    </script>
+</body>
+</html>
